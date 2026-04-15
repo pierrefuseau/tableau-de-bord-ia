@@ -1,0 +1,45 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - img [ref=e8]
+      - generic [ref=e16]:
+        - heading "Couts IA" [level=1] [ref=e17]
+        - paragraph [ref=e18]: Groupe Fuseau
+    - navigation [ref=e19]:
+      - list [ref=e20]:
+        - listitem [ref=e21]:
+          - link "Vue d'ensemble" [ref=e22] [cursor=pointer]:
+            - /url: /
+            - img [ref=e23]
+            - generic [ref=e28]: Vue d'ensemble
+        - listitem [ref=e29]:
+          - link "Par service" [ref=e30] [cursor=pointer]:
+            - /url: /services
+            - img [ref=e31]
+            - generic [ref=e34]: Par service
+        - listitem [ref=e35]:
+          - link "Par catégorie" [ref=e36] [cursor=pointer]:
+            - /url: /categories
+            - img [ref=e37]
+            - generic [ref=e41]: Par catégorie
+        - listitem [ref=e42]:
+          - link "Factures" [ref=e43] [cursor=pointer]:
+            - /url: /factures
+            - img [ref=e44]
+            - generic [ref=e47]: Factures
+        - listitem [ref=e48]:
+          - link "Budget & Alertes" [ref=e49] [cursor=pointer]:
+            - /url: /budgets
+            - img [ref=e50]
+            - generic [ref=e54]: Budget & Alertes
+        - listitem [ref=e55]:
+          - link "Export comptable" [ref=e56] [cursor=pointer]:
+            - /url: /export
+            - img [ref=e57]
+            - generic [ref=e60]: Export comptable
+    - paragraph [ref=e62]: Fuseau SAS © 2026
+  - main [ref=e63]:
+    - generic [ref=e66]:
+      - status "Chargement des données..." [ref=e67]
+      - generic [ref=e68]: Chargement des données...
+      - generic [ref=e69]: Chargement...

@@ -24,7 +24,8 @@ export function useDashboard() {
       if (monthlyRes.error) throw new Error(monthlyRes.error.message);
       if (alertsRes.error) throw new Error(alertsRes.error.message);
 
-      setSummary(summaryRes.data);
+      const summaryData = Array.isArray(summaryRes.data) ? summaryRes.data[0] : summaryRes.data;
+      setSummary(summaryData || null);
       setMonthlyTotals(monthlyRes.data || []);
       setBudgetAlerts(alertsRes.data || []);
     } catch (err) {
