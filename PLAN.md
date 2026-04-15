@@ -20,33 +20,33 @@ Dashboard de suivi des coûts IA du Groupe Fuseau. 15 services IA à suivre (Ant
 
 ## Tâches
 
-- [ ] Tâche 1 — Setup projet Vite + React + TypeScript + Tailwind + structure dossiers
-- [ ] Tâche 2 — Design system : copier tailwind.config, fonts, couleurs, ajouter teal
-- [ ] Tâche 3 — Composants UI de base (partie 1) : PageHeader, Button, Card, Typography, cn utility
-- [ ] Tâche 4 — Composants UI de base (partie 2) : MetricCard, ResponsiveGrid, LoadingSpinner, EmptyState, Badge
-- [ ] Tâche 5 — Composants UI de base (partie 3) : NavigationTabs, MobileTabNavigation, StickyActionBar, Sidebar, Toast
-- [ ] Tâche 6 — Layout principal : Sidebar + routing React Router + shell responsive
-- [ ] Tâche 7 — Créer le projet Supabase + schéma initial (tables ai_services, ai_costs, ai_invoices, ai_budgets, ai_cost_imports)
-- [ ] Tâche 8 — RLS policies + RPCs Supabase (fonctions agrégation coûts par mois, par service, par catégorie)
-- [ ] Tâche 9 — Client Supabase + hooks de données (useServices, useCosts, useInvoices, useBudgets)
-- [ ] Tâche 10 — Seed data : insérer les 15 services IA + données de coûts fictives sur 6 mois
-- [ ] Tâche 11 — Page Vue d'ensemble : KPIs hero (coût total mois, variation M-1, budget restant, services actifs) + graphique évolution mensuelle
-- [ ] Tâche 12 — Page Vue d'ensemble : graphique répartition par catégorie (donut) + top 5 services les plus coûteux
-- [ ] Tâche 13 — Page Par service : liste des services avec coût mensuel, graphique sparkline, statut budget
-- [ ] Tâche 14 — Page Par service : vue détail d'un service (historique 12 mois, coût moyen/jour, infos billing)
-- [ ] Tâche 15 — Page Par catégorie : répartition API vs Abonnements vs Infrastructure vs Crédits avec graphiques comparatifs
-- [ ] Tâche 16 — Page Factures : table des factures (import auto + saisie manuelle), statuts (payée, en attente, à vérifier)
-- [ ] Tâche 17 — Page Factures : formulaire d'ajout/édition de facture manuelle + upload fichier (Supabase Storage)
-- [ ] Tâche 18 — Page Budget & Alertes : définition de budgets par service/catégorie, seuils d'alerte, indicateurs visuels
-- [ ] Tâche 19 — Page Budget & Alertes : système d'alertes (calcul dépassement, notification visuelle, historique alertes)
-- [ ] Tâche 20 — Page Export comptable : export CSV/Excel des coûts par période, rapprochement factures, filtres avancés
-- [ ] Tâche 21 — Formulaire d'ajout de coût manuel (pour les services sans API billing)
-- [ ] Tâche 22 — Intégration API Anthropic billing : récupération usage et coûts via API
-- [ ] Tâche 23 — Intégration API OpenAI billing : récupération usage et coûts via API
-- [ ] Tâche 24 — Workflow n8n : import automatique coûts Anthropic + OpenAI → Supabase (schedulé quotidien)
-- [ ] Tâche 25 — GitHub repo + Netlify deploy + .env config + CLAUDE.md projet
-- [ ] Tâche 26 — QA responsive (mobile + desktop), tests navigation, vérification build propre
-- [ ] Tâche 27 — Polish final : animations, empty states, loading states, edge cases
+- [x] Tâche 1 — Setup projet Vite + React + TypeScript + Tailwind + structure dossiers
+- [x] Tâche 2 — Design system : copier tailwind.config, fonts, couleurs, ajouter teal
+- [x] Tâche 3 — Composants UI de base (partie 1) : PageHeader, Button, Card, Typography, cn utility
+- [x] Tâche 4 — Composants UI de base (partie 2) : MetricCard, ResponsiveGrid, LoadingSpinner, EmptyState, Badge
+- [x] Tâche 5 — Composants UI de base (partie 3) : NavigationTabs, MobileTabNavigation, StickyActionBar, Sidebar, Toast
+- [x] Tâche 6 — Layout principal : Sidebar + routing React Router + shell responsive
+- [x] Tâche 7 — Créer le projet Supabase + schéma initial (tables ai_services, ai_costs, ai_invoices, ai_budgets, ai_cost_imports)
+- [x] Tâche 8 — RLS policies + RPCs Supabase (fonctions agrégation coûts par mois, par service, par catégorie)
+- [x] Tâche 9 — Client Supabase + hooks de données (useServices, useCosts, useInvoices, useBudgets)
+- [x] Tâche 10 — Seed data : insérer les 15 services IA + données de coûts fictives sur 6 mois
+- [x] Tâche 11 — Page Vue d'ensemble : KPIs hero (coût total mois, variation M-1, budget restant, services actifs) + graphique évolution mensuelle
+- [x] Tâche 12 — Page Vue d'ensemble : graphique répartition par catégorie (donut) + top 5 services les plus coûteux
+- [x] Tâche 13 — Page Par service : liste des services avec coût mensuel, graphique sparkline, statut budget
+- [x] Tâche 14 — Page Par service : vue détail d'un service (historique 12 mois, coût moyen/jour, infos billing)
+- [x] Tâche 15 — Page Par catégorie : répartition API vs Abonnements vs Infrastructure vs Crédits avec graphiques comparatifs
+- [x] Tâche 16 — Page Factures : table des factures (import auto + saisie manuelle), statuts (payée, en attente, à vérifier)
+- [x] Tâche 17 — Page Factures : formulaire d'ajout/édition de facture manuelle + upload fichier (Supabase Storage)
+- [x] Tâche 18 — Page Budget & Alertes : définition de budgets par service/catégorie, seuils d'alerte, indicateurs visuels
+- [x] Tâche 19 — Page Budget & Alertes : système d'alertes (calcul dépassement, notification visuelle, historique alertes)
+- [x] Tâche 20 — Page Export comptable : export CSV/Excel des coûts par période, rapprochement factures, filtres avancés
+- [x] Tâche 21 — Formulaire d'ajout de coût manuel (pour les services sans API billing)
+- [x] Tâche 22 — Intégration API Anthropic billing : récupération usage et coûts via API
+- [x] Tâche 23 — Intégration API OpenAI billing : récupération usage et coûts via API
+- [x] Tâche 24 — Workflow n8n : import automatique coûts Anthropic + OpenAI → Supabase (schedulé quotidien)
+- [x] Tâche 25 — GitHub repo + Netlify deploy + .env config + CLAUDE.md projet
+- [x] Tâche 26 — QA responsive (mobile + desktop), tests navigation, vérification build propre
+- [x] Tâche 27 — Polish final : animations, empty states, loading states, edge cases
 
 ---
 
