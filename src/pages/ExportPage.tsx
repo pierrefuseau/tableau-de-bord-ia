@@ -8,34 +8,8 @@ import { useServices } from '../hooks/useServices';
 import { useToast } from '../components/ui/ToastProvider';
 import { formatCurrency } from '../utils/formatters/currency';
 import { Download, FileSpreadsheet, FileText, Calendar } from 'lucide-react';
-import * as XLSX from 'xlsx';
-
-const COST_TYPE_LABELS: Record<string, string> = {
-  api_usage: 'API Usage',
-  subscription: 'Abonnement',
-  infrastructure: 'Infrastructure',
-  credits: 'Crédits',
-  storage: 'Stockage',
-  overage: 'Dépassement',
-};
-
-function getMonthStart() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
-}
-
-function getMonthEnd() {
-  const d = new Date();
-  const last = new Date(d.getFullYear(), d.getMonth() + 1, 0);
-  return last.toISOString().slice(0, 10);
-}
-
-function getLastMonthRange(): [string, string] {
-  const d = new Date();
-  const start = new Date(d.getFullYear(), d.getMonth() - 1, 1);
-  const end = new Date(d.getFullYear(), d.getMonth(), 0);
-  return [start.toISOString().slice(0, 10), end.toISOString().slice(0, 10)];
-}
+import { COST_TYPE_LABELS } from '../constants/categories';
+import { getMonthStart, getMonthEnd, getPreviousMonthRange } from '../utils/dateRanges';
 
 function getQuarterRange(): [string, string] {
   const d = new Date();
@@ -100,9 +74,9 @@ export function ExportPage() {
         setEndDate(getMonthEnd());
         break;
       case 'last_month': {
-        const [s, e] = getLastMonthRange();
-        setStartDate(s);
-        setEndDate(e);
+        const prev = getPreviousMonthRange();
+        setStartDate(prev.startDate);
+        setEndDate(prev.endDate);
         break;
       }
       case 'quarter': {
@@ -139,11 +113,12 @@ export function ExportPage() {
     showToast({ title: 'Export CSV', description: 'Fichier téléchargé avec succès.', variant: 'success' });
   }, [previewData, startDate, endDate, showToast]);
 
-  const exportExcel = useCallback(() => {
+  const exportExcel = useCallback(async () => {
     if (previewData.length === 0) {
       showToast({ title: 'Aucune donnée', description: 'Aucun coût pour la période sélectionnée.', variant: 'warning' });
       return;
     }
+    const XLSX = await import('xlsx');
     const wb = XLSX.utils.book_new();
 
     // Sheet 1: Coûts

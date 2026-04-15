@@ -11,16 +11,9 @@ import { useServices } from '../hooks/useServices';
 import { useToast } from '../components/ui/ToastProvider';
 import { formatCurrency } from '../utils/formatters/currency';
 import { FileText, Clock, AlertTriangle, Plus, Eye } from 'lucide-react';
-import type { BadgeProps } from '../components/ui/Badge';
+import { INVOICE_STATUS_CONFIG } from '../constants/statuses';
 
-const STATUS_CONFIG: Record<string, { label: string; variant: BadgeProps['variant'] }> = {
-  paid: { label: 'Payée', variant: 'success' },
-  pending: { label: 'En attente', variant: 'warning' },
-  overdue: { label: 'En retard', variant: 'danger' },
-  to_verify: { label: 'À vérifier', variant: 'neutral' },
-};
-
-const ALL_STATUSES = ['paid', 'pending', 'overdue', 'to_verify'] as const;
+const ALL_STATUSES = Object.keys(INVOICE_STATUS_CONFIG) as (keyof typeof INVOICE_STATUS_CONFIG)[];
 
 export function InvoicesPage() {
   const { invoices, loading: invoicesLoading } = useInvoices();
@@ -148,7 +141,7 @@ export function InvoicesPage() {
               Tous
             </button>
             {ALL_STATUSES.map(st => {
-              const cfg = STATUS_CONFIG[st];
+              const cfg = INVOICE_STATUS_CONFIG[st];
               return (
                 <button
                   key={st}
@@ -207,7 +200,7 @@ export function InvoicesPage() {
               <tbody>
                 {filtered.map(inv => {
                   const service = serviceMap.get(inv.service_id);
-                  const statusCfg = STATUS_CONFIG[inv.status] || STATUS_CONFIG.to_verify;
+                  const statusCfg = INVOICE_STATUS_CONFIG[inv.status] || INVOICE_STATUS_CONFIG.to_verify;
                   return (
                     <tr key={inv.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                       <td className="py-3 px-3 text-slate-700 tabular-nums">

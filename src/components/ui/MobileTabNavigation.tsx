@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '../../utils/cn';
-// Breakpoints available via: import { RESPONSIVE_CONFIG } from '../../config/breakpoints';
+import { renderIcon } from '../../utils/renderIcon';
 
 interface Tab {
   id: string;
@@ -75,14 +75,6 @@ function getVariantColors(variant: string) {
         inactive: 'text-slate-600 hover:text-slate-700 hover:bg-slate-50 border-transparent',
       };
   }
-}
-
-function renderIcon(icon: LucideIcon | React.ReactNode, className: string) {
-  if (typeof icon === 'function' || (typeof icon === 'object' && icon !== null && '$$typeof' in icon && 'render' in (icon as Record<string, unknown>))) {
-    const IconComponent = icon as LucideIcon;
-    return <IconComponent className={className} />;
-  }
-  return icon;
 }
 
 export function MobileTabNavigation({ tabs, activeTab, onTabChange, variant = 'default' }: MobileTabNavigationProps) {

@@ -4,6 +4,8 @@ import { useServices } from '../../hooks/useServices';
 import { useToast } from '../ui/ToastProvider';
 import { supabase } from '../../lib/supabase';
 import { X, Save } from 'lucide-react';
+import { COST_TYPE_LABELS } from '../../constants/categories';
+import { getMonthStart, getMonthEnd } from '../../utils/dateRanges';
 
 interface AddCostModalProps {
   open: boolean;
@@ -11,31 +13,13 @@ interface AddCostModalProps {
   onSuccess?: () => void;
 }
 
-const COST_TYPES = [
-  { value: 'api_usage', label: 'API Usage' },
-  { value: 'subscription', label: 'Abonnement' },
-  { value: 'infrastructure', label: 'Infrastructure' },
-  { value: 'credits', label: 'Crédits' },
-  { value: 'storage', label: 'Stockage' },
-  { value: 'overage', label: 'Dépassement' },
-];
+const COST_TYPES = Object.entries(COST_TYPE_LABELS).map(([value, label]) => ({ value, label }));
 
 const SOURCES = [
   { value: 'manual', label: 'Saisie manuelle' },
   { value: 'api_import', label: 'Import API' },
   { value: 'invoice', label: 'Facture' },
 ];
-
-function getMonthStart() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-01`;
-}
-
-function getMonthEnd() {
-  const d = new Date();
-  const last = new Date(d.getFullYear(), d.getMonth() + 1, 0);
-  return last.toISOString().slice(0, 10);
-}
 
 export function AddCostModal({ open, onClose, onSuccess }: AddCostModalProps) {
   const { services } = useServices();

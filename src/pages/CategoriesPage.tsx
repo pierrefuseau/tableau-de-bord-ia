@@ -13,15 +13,27 @@ import { Cpu, CreditCard, Server, Coins, Database } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
+import { COST_TYPE_LABELS, COST_TYPE_COLORS } from '../constants/categories';
 import type { AIService } from '../types/database';
 
-const CATEGORY_CONFIG: Record<string, { label: string; icon: typeof Cpu; color: string }> = {
-  api_usage: { label: 'API Usage', icon: Cpu, color: '#14b8a6' },
-  subscription: { label: 'Abonnements', icon: CreditCard, color: '#0d9488' },
-  infrastructure: { label: 'Infrastructure', icon: Server, color: '#5eead4' },
-  credits: { label: 'Crédits', icon: Coins, color: '#99f6e4' },
-  storage: { label: 'Stockage', icon: Database, color: '#2dd4bf' },
+const CATEGORY_ICONS: Record<string, typeof Cpu> = {
+  api_usage: Cpu,
+  subscription: CreditCard,
+  infrastructure: Server,
+  credits: Coins,
+  storage: Database,
 };
+
+const CATEGORY_CONFIG: Record<string, { label: string; icon: typeof Cpu; color: string }> = Object.fromEntries(
+  Object.keys(CATEGORY_ICONS).map(key => [
+    key,
+    {
+      label: COST_TYPE_LABELS[key as keyof typeof COST_TYPE_LABELS] || key,
+      icon: CATEGORY_ICONS[key],
+      color: COST_TYPE_COLORS[key as keyof typeof COST_TYPE_COLORS] || '#94a3b8',
+    },
+  ])
+);
 
 const CATEGORIES = Object.keys(CATEGORY_CONFIG);
 

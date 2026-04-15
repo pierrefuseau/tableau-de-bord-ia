@@ -1,6 +1,7 @@
 import React from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { renderIcon } from '../../utils/renderIcon';
 
 interface Tab {
   id: string;
@@ -28,14 +29,6 @@ const variantActiveClasses: Record<string, string> = {
   marketing: 'bg-cyan-50 text-cyan-700',
   default: 'bg-slate-100 text-slate-900',
 };
-
-function renderIcon(icon: LucideIcon | React.ReactNode, className: string) {
-  if (typeof icon === 'function' || (typeof icon === 'object' && icon !== null && '$$typeof' in icon && 'render' in (icon as Record<string, unknown>))) {
-    const IconComponent = icon as LucideIcon;
-    return <IconComponent className={className} />;
-  }
-  return icon;
-}
 
 export function NavigationTabs({ tabs, activeTab, onTabChange, variant = 'default' }: NavigationTabsProps) {
   const activeClasses = variantActiveClasses[variant] || variantActiveClasses.default;

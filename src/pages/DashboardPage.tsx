@@ -13,29 +13,12 @@ import { useDashboard } from '../hooks/useDashboard';
 import { useCosts } from '../hooks/useCosts';
 import { useServices } from '../hooks/useServices';
 import { formatCurrency } from '../utils/formatters/currency';
+import { COST_TYPE_LABELS, COST_TYPE_COLORS } from '../constants/categories';
 import { DollarSign, TrendingUp, Target, Server, RefreshCw, Download, Filter, Plus } from 'lucide-react';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend
 } from 'recharts';
-
-const CATEGORY_COLORS: Record<string, string> = {
-  api_usage: '#14b8a6',
-  subscription: '#0d9488',
-  infrastructure: '#5eead4',
-  credits: '#99f6e4',
-  storage: '#2dd4bf',
-  overage: '#f43f5e',
-};
-
-const CATEGORY_LABELS: Record<string, string> = {
-  api_usage: 'API Usage',
-  subscription: 'Abonnements',
-  infrastructure: 'Infrastructure',
-  credits: 'Crédits',
-  storage: 'Stockage',
-  overage: 'Dépassement',
-};
 
 const tabs = [
   { id: 'evolution', label: 'Évolution', icon: TrendingUp },
@@ -45,11 +28,15 @@ const tabs = [
 
 // --- Top Services sub-component ---
 
-function TopServicesContent() {
+interface TopServicesContentProps {
+  services: { id: string; name: string; provider: string }[];
+  servicesLoading: boolean;
+}
+
+function TopServicesContent({ services, servicesLoading }: TopServicesContentProps) {
   const { costs, loading: costsLoading } = useCosts({
     startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().slice(0, 10),
   });
-  const { services, loading: servicesLoading } = useServices();
 
   const topServices = useMemo(() => {
     if (!costs.length || !services.length) return [];
@@ -120,32 +107,36 @@ function TopServicesContent() {
 
 export function DashboardPage() {
   const { summary, monthlyTotals, loading, refetch } = useDashboard();
+  const { services, loading: servicesLoading } = useServices();
   const [activeTab, setActiveTab] = useState('evolution');
   const [showAddCost, setShowAddCost] = useState(false);
+
+  const chartData = useMemo(() =>
+    (monthlyTotals || []).map(m => ({
+      month: new Date(m.month).toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' }),
+      total: Number(m.total),
+    })),
+    [monthlyTotals]
+  );
+
+  const categoryData = useMemo(() => {
+    const latestMonth = monthlyTotals?.[monthlyTotals.length - 1];
+    return latestMonth?.by_category
+      ? Object.entries(latestMonth.by_category).map(([key, val]) => ({
+          name: COST_TYPE_LABELS[key as keyof typeof COST_TYPE_LABELS] || key,
+          value: Number(val),
+          color: COST_TYPE_COLORS[key as keyof typeof COST_TYPE_COLORS] || '#94a3b8',
+        }))
+      : [];
+  }, [monthlyTotals]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <LoadingSpinner label="Chargement des données..." />
+        <LoadingSpinner label="Chargement des donnees..." />
       </div>
     );
   }
-
-  // Format monthly data for chart
-  const chartData = (monthlyTotals || []).map(m => ({
-    month: new Date(m.month).toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' }),
-    total: Number(m.total),
-  }));
-
-  // Category breakdown from latest month
-  const latestMonth = monthlyTotals?.[monthlyTotals.length - 1];
-  const categoryData = latestMonth?.by_category
-    ? Object.entries(latestMonth.by_category).map(([key, val]) => ({
-        name: CATEGORY_LABELS[key] || key,
-        value: Number(val),
-        color: CATEGORY_COLORS[key] || '#94a3b8',
-      }))
-    : [];
 
   return (
     <div className="space-y-6 sm:space-y-8 pb-16 sm:pb-0">
@@ -257,7 +248,7 @@ export function DashboardPage() {
 
         {activeTab === 'top' && (
           <Card title="Top 5 services les plus coûteux">
-            <TopServicesContent />
+            <TopServicesContent services={services} servicesLoading={servicesLoading} />
           </Card>
         )}
       </div>

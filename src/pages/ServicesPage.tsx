@@ -12,6 +12,8 @@ import { useCosts } from '../hooks/useCosts';
 import { useDashboard } from '../hooks/useDashboard';
 import { formatCurrency } from '../utils/formatters/currency';
 import { TrendingUp, TrendingDown, Minus, Server, RefreshCw, Filter } from 'lucide-react';
+import { COST_TYPE_SHORT_LABELS } from '../constants/categories';
+import { getCurrentMonthRange, getPreviousMonthRange } from '../utils/dateRanges';
 import type { AIService } from '../types/database';
 
 // =============================================================================
@@ -29,11 +31,7 @@ const FILTER_BUTTONS: { id: FilterType; label: string }[] = [
 ];
 
 const TYPE_LABELS: Record<string, string> = {
-  api_usage: 'API',
-  subscription: 'Abo',
-  infrastructure: 'Infra',
-  credits: 'Crédits',
-  storage: 'Stockage',
+  ...COST_TYPE_SHORT_LABELS,
   platform: 'Plateforme',
 };
 
@@ -45,28 +43,6 @@ const TYPE_BADGE_VARIANT: Record<string, 'info' | 'success' | 'warning' | 'neutr
   storage: 'neutral',
   platform: 'info',
 };
-
-// =============================================================================
-// HELPERS
-// =============================================================================
-
-function getCurrentMonthRange() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), 1);
-  return {
-    startDate: start.toISOString().slice(0, 10),
-  };
-}
-
-function getPreviousMonthRange() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const end = new Date(now.getFullYear(), now.getMonth(), 0);
-  return {
-    startDate: start.toISOString().slice(0, 10),
-    endDate: end.toISOString().slice(0, 10),
-  };
-}
 
 // =============================================================================
 // SERVICE CARD

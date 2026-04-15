@@ -15,17 +15,12 @@ import { ArrowLeft, DollarSign, CalendarDays, TrendingUp, FileText } from 'lucid
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
+import { COST_TYPE_SHORT_LABELS } from '../constants/categories';
+import { INVOICE_STATUS_CONFIG } from '../constants/statuses';
 
-// =============================================================================
-// HELPERS
-// =============================================================================
-
-function getCurrentMonthRange() {
+function getCurrentMonthStart(): Date {
   const now = new Date();
-  return {
-    start: new Date(now.getFullYear(), now.getMonth(), 1),
-    end: now,
-  };
+  return new Date(now.getFullYear(), now.getMonth(), 1);
 }
 
 function getElapsedDays(): number {
@@ -33,33 +28,10 @@ function getElapsedDays(): number {
   return now.getDate();
 }
 
-const COST_TYPE_LABELS: Record<string, string> = {
-  api_usage: 'API',
-  subscription: 'Abonnement',
-  infrastructure: 'Infra',
-  credits: 'Crédits',
-  storage: 'Stockage',
-  overage: 'Dépassement',
-};
-
 const SOURCE_LABELS: Record<string, string> = {
   manual: 'Manuel',
   api_import: 'Import API',
   invoice: 'Facture',
-};
-
-const STATUS_VARIANTS: Record<string, 'success' | 'warning' | 'danger' | 'info' | 'neutral'> = {
-  paid: 'success',
-  pending: 'warning',
-  to_verify: 'info',
-  overdue: 'danger',
-};
-
-const STATUS_LABELS: Record<string, string> = {
-  paid: 'Payée',
-  pending: 'En attente',
-  to_verify: 'À vérifier',
-  overdue: 'En retard',
 };
 
 // =============================================================================
@@ -82,12 +54,12 @@ export function ServiceDetailPage() {
   );
 
   // Current month cost
-  const currentMonthRange = useMemo(() => getCurrentMonthRange(), []);
+  const monthStart = useMemo(() => getCurrentMonthStart(), []);
   const costThisMonth = useMemo(() => {
     return costs
-      .filter(c => new Date(c.period_start) >= currentMonthRange.start)
+      .filter(c => new Date(c.period_start) >= monthStart)
       .reduce((sum, c) => sum + c.amount, 0);
-  }, [costs, currentMonthRange]);
+  }, [costs, monthStart]);
 
   // Previous month cost
   const costLastMonth = useMemo(() => {
@@ -269,7 +241,7 @@ export function ServiceDetailPage() {
                   </td>
                   <td className="py-3 px-2">
                     <Badge variant="neutral" size="sm">
-                      {COST_TYPE_LABELS[cost.cost_type] || cost.cost_type}
+                      {COST_TYPE_SHORT_LABELS[cost.cost_type] || cost.cost_type}
                     </Badge>
                   </td>
                   <td className="py-3 px-2 text-slate-500">
@@ -316,10 +288,10 @@ export function ServiceDetailPage() {
                   </td>
                   <td className="py-3 px-2">
                     <Badge
-                      variant={STATUS_VARIANTS[inv.status] || 'neutral'}
+                      variant={(INVOICE_STATUS_CONFIG[inv.status] || INVOICE_STATUS_CONFIG.to_verify).variant}
                       size="sm"
                     >
-                      {STATUS_LABELS[inv.status] || inv.status}
+                      {(INVOICE_STATUS_CONFIG[inv.status] || INVOICE_STATUS_CONFIG.to_verify).label}
                     </Badge>
                   </td>
                 </tr>
